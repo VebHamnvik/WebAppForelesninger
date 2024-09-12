@@ -37,13 +37,7 @@
     </form>
 
     <script>
-        const dadJokes = [
-            { id: 111, title: "Why don't scientists trust atoms?", answer: "Because they make up everything!" },
-            { id: 222, title: "What do you call a fake noodle?", answer: "An impasta!" },
-            { id: 333, title: "Why did the scarecrow win an award?", answer: "He was outstanding in his field!" },
-            { id: 444, title: "How do you organize a space party?", answer: "You planet!" },
-            { id: 555, title: "What do you call a bear with no teeth?", answer: "A gummy bear!" }
-        ];
+        const dadJokes = [];
 
         const jokesList = document.getElementById('jokesList');
         const addJokeForm = document.getElementById('addJokeFormId');
@@ -58,10 +52,16 @@
         }
 
         async function fetchJokes() {
-            // Fetch data fra server og legg det til i listen over
-            const dataFromServer = []
-            if(!dataFromServer.length) return
-            return [...dadjokes, ...dataFromServer];
+          try {
+              // Fetch data fra server og legg det til i listen over
+              const response = await fetch('http://localhost:3999/jokes')
+              const dataFromServer = await response.json()
+
+              return [...dadjokes, ...dataFromServer];
+            } catch (error) {
+              console.error("Error fetching jokes from the server:", error)
+              return dadJokes
+            }
         }
 
         // Function to post a new joke (simulated)
