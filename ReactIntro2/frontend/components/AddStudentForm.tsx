@@ -1,24 +1,28 @@
 import { useState } from "react";
 
+// Definerer typen som gjør at vi kan sende inn en funksjon som props
 type AddStudentFormProps = {
-    onAddStudent: (studentName: string) => void;
+    onAddStudent: ({ name } : { name: string } )=> void;
 }
 
-export default function AddStudentForm({ onAddStudent }: AddStudentFormProps) {
-    const [newStudent, setNewStudent] = useState('')
+export default function AddStudentForm(props: AddStudentFormProps) {
+    const { onAddStudent } = props
+    const [name, setName] = useState('')
 
+    //Bruker funksjonen som ble sendt som props i funksjonen som blir knyttet opp mot submit i formen
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        onAddStudent(newStudent)
-        setNewStudent('')
+        if (!name) return
+        onAddStudent( { name } )
+        setName('')
     }
 
     return (
-        <form className="add-student-form" method="post">
+        //Bruker funksjonen i formen
+        <form onSubmit={handleSubmit} className="add-student-form" method="post">
             <label htmlFor="name">Navn:</label>
-            <input placeholder="Skriv inn navnet ditt her..." name="name"  type="text" onChange={(e) => setNewStudent(e.target.value)}/>
+            <input placeholder="Skriv inn navnet ditt her..." id="name"  type="text" onChange={(e) => setName(e.target.value)}/>
             <button type="submit">Legg til student</button>
         </form>
     )
-
 }
