@@ -21,7 +21,7 @@ export default function AddStudentForm(props: AddStudentFormProps) {
         //Bruker funksjonen i formen
         <form onSubmit={handleSubmit} className="add-student-form" method="post">
             <label htmlFor="name">Navn:</label>
-            <input placeholder="Skriv inn navnet ditt her..." id="name"  type="text" onChange={(e) => setName(e.target.value)}/>
+            <input placeholder="Skriv inn navnet ditt her..." id="name"  type="text" value={name} onChange={(e) => setName(e.target.value)}/>
             <button type="submit">Legg til student</button>
         </form>
     )
